@@ -26,6 +26,8 @@ verifier:
   name: inspec
 
 platforms:
+  
+  
   - name: centos-7.4
 
 suites:

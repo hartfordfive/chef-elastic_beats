@@ -92,12 +92,43 @@ end
 
 
 action :remove do
+  
+  new_resource.directories.each do |dir|
+      directory dir do
+        recursive true
+        action :delete
+      end
+  end
+
+  user new_resource.user do
+      action :delete
+  end
+    
+  group new_resource.group do
+    action :delete
+  end
+
+  if new_resource.package_dependencies.length >= 1
+    new_resource.package_dependencies.each do |p|
+      package p do
+        action :remove
+      end
+    end
+  end
 
 end
 
 
 action :disable do
+
+  service_name =  if new_resource.service_name.empty? then "#{new_resource.name}.service" else new_resource.service_name end
   
+  service service_name do
+    provider service_provider
+    action [ :disable, :stop ]
+    retries 3
+  end
+
 end
 
 
