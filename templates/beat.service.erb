@@ -1,0 +1,14 @@
+[Unit]
+Description=journalbeat
+#Documentation=https://github.com/mheese/journalbeat
+Documentation<%=@documentation_url%>
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+#ExecStart=/usr/share/filebeat/bin/filebeat -c /etc/filebeat/filebeat.yml -path.home /usr/share/filebeat -path.config /etc/filebeat -path.data /var/lib/filebeat -path.logs /var/log/filebeat
+ExecStart=<%=@bin_path%>/<%=@bin_name%> -c <%=@config_file%> -path.home <%=@path_home%> -path.config <%=@path_config%>  -path.data <%=@path_data%>  -path.logs <%=@path_logs%> 
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
